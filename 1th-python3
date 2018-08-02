@@ -1,0 +1,65 @@
+# binary_search 二分查找
+def binary_search(l,n):
+    low=0
+    high=len(l)-1
+    mid=(high+low)//2
+    while True:
+        if n==l[mid]:
+            return mid
+        elif n>l[mid]:
+            low=mid
+            mid=(high+low)//2
+        elif n<l[mid]:
+            high=mid
+            mid=(high+low)//2
+        if (high-low)==1 and n!=l[mid]:
+            return 'no such num'
+            break
+binary_search([1,2,2,4,5,5,6],5)
+
+
+#bubble sort 冒泡排序
+def bubble(l):
+    while True:
+        count =0
+        for i in range(len(l)-1):
+            if l[i]>l[i+1]:
+                l[i],l[i+1]=l[i+1],l[i]
+                count+=1
+        if count ==0:
+            return l
+bubble([4,23,16,5])
+
+
+
+#D&C  recursive D&C:递归实现快排
+
+def quicksort(array):
+    if len(array)<2:# 子组只有1 个或0个元素
+        return array#退出递归的条件
+    else:
+        pivot = array[0]
+        less=[i for i in array[1:] if i <= pivot]#小的放一边
+        greater = [i for i in array[1:] if i > pivot]#大的放一边
+        return quicksort(less) + [pivot] + quicksort(greater)
+quicksort([2,1,4,6,5,4,5,6])
+
+coins =[1,4,7]#arrange in order
+amount = 19
+
+
+#change coin  --dynamic programming 动态规划  （or贪心）？
+def coin(coins,amount):
+    num_needed=0
+    maxnum=max(coins)
+    while True:#如果有余
+        num_needed+= (amount//maxnum)
+        print(num_needed)
+        amount%=maxnum
+        coins.remove(maxnum)
+        if amount==0:
+            return num_needed
+        
+        maxnum=max(coins)
+coin(coins,amount)
+        
