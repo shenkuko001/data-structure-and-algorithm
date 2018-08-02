@@ -67,3 +67,21 @@ def BFS(d):
             d += gragh[name]
     print('nobody')
 BFS(de)
+
+
+#print every prime numbers within 100000
+import math
+prime_num=[1,2,3]
+g=[i for i in range(5,100000,2)]
+for i in g:
+    n=3
+    while True:
+        if i%n!=0:#没有余数，就对下一个数字测试因子
+            n+=2
+            if n-2>=math.sqrt(i): # 11  #测试至此若仍未找到，说明质数，加入list ，跳出循环
+                prime_num.append(i)
+                break
+            continue
+        else:
+            break
+print(prime_num)
