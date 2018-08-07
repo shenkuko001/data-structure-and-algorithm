@@ -69,7 +69,7 @@ def BFS(d):
 BFS(de)
 
 
-#print every prime numbers within 100000
+#print every prime numbers within 100000  找素数
 import math
 prime_num=[1,2,3]
 g=[i for i in range(5,100000,2)]
@@ -85,3 +85,17 @@ for i in g:
         else:
             break
 print(prime_num)
+
+#找素数2
+l = [1,2,3]
+for i in range(5,10000,2):
+    if i%3 == 0:
+        continue
+    n = 3
+    while n < i**(1/2):
+        if i%n == 0:
+            break
+        else:
+            n += 2
+            if n > i**(1/2):
+                l.append(i)
