@@ -1,0 +1,112 @@
+
+import random
+random_list = [random.randrange(1,21) for i in range(10)]
+repetition = []
+sole = []
+testified = []
+for i in random_list:
+    if i not in testified:#最好不要用in ，全部查找了，最好用索引
+        if random_list.count(i) > 1:
+            repetition.append(tuple([i,random_list.count(i)]))
+        else:
+            sole.append(i)
+        testified.append(i)
+
+
+#Transpose
+l = [[1,2,3],[4,5,6],[7,8,9]]
+def Transpose1(l):
+    for i in range(len(l)):
+        for j in range(i+1):
+            if i == j:
+                continue
+            else:
+                l[i][j], l[j][i] = l[j][i], l[i][j]
+    for i in l:
+        print(i)
+    return l
+
+
+l2 = [[1,2,3],[4,5,6]]
+
+def Transpose2(l):
+    len1 = len(l)
+    len2 = len(l[0])
+    List = []
+    for i in range(len2):#3
+        List.append([])
+        for j in range(len1):#2
+            List[i].append(l[j][i])
+    for i in List:
+        print(i)
+    return List
+Transpose2(l2)
+
+
+
+
+
+#leetcode 205
+a = 'abbcc'
+b = 'abccd'
+def judge(list1):
+    l=[]
+    l2=[]
+    for i in range(len(list1)):
+        if list1[i] not in l:#元素如果没在l 里面，就把index加到l里面
+            l.append(list1[i])
+            l2.append(i)
+        else:
+            print(list1[i])#如果 元素在l 里面，就返回第一个index
+            l2.append(l.index(list1[i]))
+    return l2
+judge(a) == judge(b)
+
+#leetcode 686
+def repeatedStringMatch(self, A, B):
+    n = 1
+    tmp = A
+    if len(A)<len(B) and B.find(A) == -1:
+        return -1
+    while True:
+        if len(A) >= len(B) and A.find(B) != -1:
+            return n
+        else:
+            A += tmp
+            n +=1
+            
+            
+            
+            
+            
+            
+            
+  #leetcode 492
+'''现给定一个具体的矩形页面面积，你的任务是设计一个长度为 L 和宽度为 W 且满足以下要求的矩形的页面。要求：'''
+from math import sqrt
+S = 2
+def func(S):# 往上遍历其实很没用，直接相除就好了。不过想到从中间开始遍历还可以。
+    num = int(S**0.5)
+    l = []
+    for i in range(num,0,-1):
+        if len(l) == 0:
+            print('t')
+            for j in range(num,S+1):# 这一层开始的循环就没必要
+                print(i,j)
+                if i * j == S:
+                    l.append(tuple([j,i]))
+                    break
+                if i * j > S:
+                    break
+    return l[0]
+
+
+func(S)
+    
+# best solution 
+def constructRectangle(self, area):
+    mid = int(math.sqrt(area))
+    while mid > 0:
+        if area % mid == 0:
+            return [int(area / mid), int(mid)]
+        mid -= 1
