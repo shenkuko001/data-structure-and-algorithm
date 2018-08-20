@@ -233,6 +233,73 @@ for i in range(3,0,-1):
 
 
 
+挑战题=================================
+之字形打印
 
+a = '''1	2	6	7
+3	5	8	13
+4	9	12	14
+10	11	15	16'''.split('\n')
+l = []
+for i in a:
+    x= i.split('\t')
+    x = [int(j) for j in x]
+    l.append(x)
+x = 0
+y = 0
+count = 1#利用奇偶来控制上下遍历的方向
+def up_half(l,x,y,direction):
+    if direction%2 != 0:
+        while True:
+            print(l[x][y])
+            if x == 0:
+                return x,y,direction+1
+                break
+            x -= 1
+            y += 1
+    else:
+        while True:
+            print(l[x][y])
+            if y == 0:
+                return x,y,direction+1
+                break
+            x+=1
+            y-=1
+def down_half(l,x,y,direction):
+    if direction%2 != 0:
+        while True:
+            print(l[x][y])
+            if y == 3:
+                return x,y,direction+1
+                break
+            x -= 1
+            y += 1
+    else:
+        while True:
+            print(l[x][y])
+            if x == 3:
+                return x,y,direction+1
+                break
+            x+=1
+            y-=1
+            
+while True:
+    x,y,count = up_half(l,x,y,count)
+    if x == 3 and y == 0:
+        break
+    if count%2 ==0:#向下遍历
+        y +=1
+    else:
+        x += 1
+        
+x,y,count = 3,1,1
 
+while True:
+    x,y,count = down_half(l,x,y,count)
+    if x == 3 and y == 3:
+        break
+    if count%2 ==0:#向下遍历
+        x +=1
+    else:
+        y += 1
 
