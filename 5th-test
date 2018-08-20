@@ -1,0 +1,238 @@
+第一题===============================
+对下面集合中随机取数字，要求取出的数字是3的倍数但不能是4的倍数，成功取到10个数字并对取到的所有数字求和输出
+s = {5,10,3,8,6,10,9,15,24,30,27,48,24}
+sum1 = 0
+count = 0
+for i in range(len(s)):
+    if count == 9:# 因为从0 开始，所以取到9时候就是10个
+        break
+    num = s.pop()
+    if num % 3 == 0 and num % 4 != 0: # 因为没有0 ，就不做对0的判断了
+        sum1 += num
+        count += 1
+sum1
+        
+
+第二题===============================
+选出含有ftp的链接，且文件类型是gz或者xz的文件，要求打印其文件名，文件名升序排列
+str1 = '''ftp://ftp.astron.com/pub/file/file-5.14.tar.gz
+ftp://ftp.gmplib.org/pub/gmp-5.1.2/gmp-5.1.2.tar.xz
+ftp://ftp.vim.org/pub/vim/unix/vim-7.3.tar.bz2
+http://anduin.linuxfromscratch.org/sources/LFS/lfs-packages/conglomeration//iana-etc/iana-etc-2.30.tar.bz2
+http://anduin.linuxfromscratch.org/sources/other/udev-lfs-205-1.tar.bz2
+http://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.2.4.tar.gz
+http://download.savannah.gnu.org/releases/man-db/man-db-2.6.5.tar.xz
+http://download.savannah.gnu.org/releases/sysvinit/sysvinit-2.88dsf.tar.bz2
+http://ftp.altlinux.org/pub/people/legion/kbd/kbd-1.15.5.tar.gz
+http://mirror.hust.edu.cn/gnu/autoconf/autoconf-2.69.tar.xz
+http://mirror.hust.edu.cn/gnu/automake/automake-1.14.tar.xz'''
+lst = str1.split('\n')
+lst2 = []
+for i in lst:
+    if i.find('ftp') and (i.rfind('gz')== len(i)-2 or i.rfind('xz')== len(i)-2):#从右边开始查找gz ，xz 结尾的文件
+        index = i.rfind('/')#找到 / 并对 斜杠后面内容切片
+        filename = i[index+1:]
+        lst2.append(filename)
+lst2.sort()
+for i in lst2:
+    print(i)
+
+第三题===============================
+
+随机生成4*4的方阵所有数据，打印出来
+在此矩阵上求转置矩阵并打印出来
+
+import random
+matrix = [[random.randint(0,9) for i in range(4)] for i in range(4)]
+print(matrix)
+for i in range(4):
+    for j in range(i):
+        matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+print(matrix)
+        
+
+
+
+
+第四题===============================
+4、生成随机的20个ID
+ID格式要求：
+时间戳_三位随机数字号码_8位随机小写字母
+1506571959_089_xxkeabef
+
+import datetime
+ts = str(datetime.datetime.now().timestamp()).partition('.')[0]
+
+alpha = 'abcdefghijklmnopqrstuvwxyz'
+str1 = ''.join([random.choice(alpha) for i in range(8)])#python版本可能不支持 choices，就把choice重复8次
+
+['{}_{:0<3}_{}'.format(ts, ''.join([random.choice(alpha) for i in range(8)]),random.randrange(1000)) for i in range(20)]
+
+
+
+第五题===============================
+
+去重
+
+要求使用2种方法完成：
+1、使用集合完成去重
+2、只使用列表完成去重，不使用set或者dict（有能力选做）
+
+#method one using set()
+lst = [29, 30, 37, 22, 59, 75, 79, 41, 61, 75, 75, 78, 63, 52, 44, 20, 27, 29, 48, 66, 60, 36, 67, 73, 41, 54, 66, 46, 74, 47, 61, 23, 38, 61, 51, 55, 48, 59, 28, 68, 65, 74, 73, 58, 29, 31, 53, 31, 61, 22, 44, 33, 21, 41, 21, 35, 32, 59, 76, 32, 45, 78, 29, 65, 76, 70, 54, 22, 32, 52, 62, 42, 41, 73, 72, 64, 56, 50, 40, 64, 41, 47, 68, 73, 27, 69, 64, 21, 78, 57, 61, 27, 27, 66, 23, 21, 53, 40, 28, 64]
+final_lst = list(set(lst))
+
+#method two using another list
+unreplicated_list = []
+for i in lst:
+    if i not in unreplicated_list:
+        unreplicated_list.append(i)
+
+第六题===============================
+冒泡排序和选择排序
+str_lst = '375 3.5 6 20 9 -20 68'.split(' ')
+lst = [float(i) for i in str_lst ]
+def Bubble_Sort(l):
+    count = 0
+    while True:
+        count = 0#一个计数器，假如一轮下来没有发生交换，说明完成排序
+        for i in range(len(l)-1):
+            if l[i] > l[i+1]:#不针对具体某个值，而是一旦遇到逆序就进行一次交换。多次遍历直到一轮下来再没有发生交换。
+                l[i], l[i+1] = l[i+1], l[i]
+                count += 1
+        if count == 0:
+            break
+    return l
+Bubble_Sort(lst)
+
+#选择排序版本，这个版本只能排没有重复数字的。
+
+str_lst = '375 3.5 6 20 9 -20 68'.split(' ')
+lst = [float(i) for i in str_lst ]
+def SelectiveSort(l):
+    for i in range(len(l)):
+        index = i
+        minimum = l[i]
+        count = 0
+        for j in range(i,len(l)):
+            count += 1
+            if l[j] <= minimum :
+                minimum = l[j]
+                index_j = j
+            if count == (len(l)-i):
+                l[i], l[index_j] = l[index_j], l[i]
+    print(l)
+SelectiveSort(lst)
+
+
+第七题===============================
+要求密码必须由 10-15位 指定字符组成：
+十进制数字
+大写字母
+小写字母
+下划线
+要求四种类型的字符都要出现才算合法的强密码
+
+
+passwd = input()
+if 10 <= len(passwd) <= 15:
+    d = {'num':0, 'upper':0, 'lower':0, 'underline':0}
+    for i in passwd:
+        if i.isupper():
+            d['upper'] += 1
+        if i.islower():
+            d['lower'] += 1
+        if i == '_':
+            d['underline'] += 1
+        if i.isalnum():
+            d['num']+=1
+    if d['num'] and d['upper'] and d['lower'] and d['underline']:
+        print('This is legal password')
+    else:
+        print('Illegal password')
+    
+else:print('Illegal password')
+
+第八题===============================
+状态200的不同jsp页面访问次数
+统计不同类型文件的访问次数，文件类型有静态类（js、css）、图片类（jpg、jpeg、gif、png）、动态类(action、jsp、do)
+
+str_list = '''116.226.208.136 - - [28/Apr/2015:09:01:38 +0800] "GET /js/check.js HTTP/1.1" 304 -
+59.53.22.67 - - [28/Apr/2015:09:01:38 +0800] "GET /jquery/jquery.datepick.css HTTP/1.1" 304 -
+117.93.56.165 - - [28/Apr/2015:09:01:38 +0800] "GET /jquery/jquery-1.4.2.js HTTP/1.1" 304 -
+106.39.189.200 - - [28/Apr/2015:09:01:38 +0800] "GET /jquery/jquery.datepick.js HTTP/1.1" 304 -
+219.146.71.17 - - [28/Apr/2015:09:01:38 +0800] "GET /jquery/jquery.datepick-zh-CN.js HTTP/1.1" 304 -
+111.11.83.162 - - [28/Apr/2015:09:01:38 +0800] "GET /images/shim.gif HTTP/1.1" 304 -
+117.93.56.165 - - [28/Apr/2015:09:01:38 +0800] "GET /images/button_ok.gif HTTP/1.1" 304 -
+111.206.221.200 - - [28/Apr/2015:09:01:38 +0800] "GET /images/button_cancel.gif HTTP/1.1" 304 -
+112.80.144.85 - - [28/Apr/2015:09:01:46 +0800] "GET /user/list.jsp HTTP/1.1" 200 7644
+117.148.200.56 - - [28/Apr/2015:09:01:46 +0800] "GET /images/i_edit.gif HTTP/1.1" 304 -
+183.12.49.80 - - [28/Apr/2015:09:01:46 +0800] "GET /images/i_del.gif HTTP/1.1" 304 -
+175.19.57.147 - - [28/Apr/2015:09:01:46 +0800] "GET /images/button_view.gif HTTP/1.1" 304 -
+117.136.63.218 - - [28/Apr/2015:09:05:46 +0800] "GET /user/list.jsp HTTP/1.1" 200 7644
+157.55.39.102 - - [28/Apr/2015:09:05:56 +0800] "GET /login.jsp HTTP/1.1" 200 2607
+111.206.221.68 - - [28/Apr/2015:09:05:58 +0800] "POST /user_login.action HTTP/1.1" 200 2809
+117.93.56.165 - - [28/Apr/2015:09:06:12 +0800] "POST /user_login.action HTTP/1.1" 302 -
+223.98.218.205 - - [28/Apr/2015:09:06:12 +0800] "GET /login/home.jsp HTTP/1.1" 200 743
+117.136.97.78 - - [28/Apr/2015:09:06:12 +0800] "GET /login/welcome.jsp HTTP/1.1" 200 1142
+111.206.221.68 - - [28/Apr/2015:09:06:12 +0800] "GET /login.jsp HTTP/1.1" 200 803
+117.93.56.165 - - [28/Apr/2015:09:06:12 +0800] "GET /login/top.jsp HTTP/1.1" 200 2052
+111.206.221.68 - - [28/Apr/2015:09:06:13 +0800] "GET /login.jsp HTTP/1.1" 200 1113
+'''.split('\n')
+
+def part_one(str_list):#问题一
+    num = 0
+    for i in str_list:
+        if '200' in i[i.rfind('HTTP'):] and 'jsp' in i:#200出现在HTTP 后面才算数
+            num += 1
+            print(i)
+    print(num)
+        
+def part_two(str_list):# js 和 jsp 的区分问题
+    d = {'static':0, 'picture':0, 'dynamic':0}
+    for i in str_list:
+        index= i.rfind('HTTP')
+        s = i[index-4:index]
+        if '.js' in s or '.css' in s:#通过.js 来和 jsp 区分
+            d['static'] += 1
+        if 'jpg' in s or 'peg' in s or 'gif' in s or 'png' in s:
+            d['picture'] += 1
+        if 'ion' in s or 'jsp' in s or 'do' in s:
+            d['dynamic'] += 1
+    return d.items()
+    
+part_two(str_list)
+
+
+第九题===============================
+
+打印矩阵外圈
+
+a = '''1	2	6	7
+3	5	8	13
+4	9	12	14
+10	11	15	16'''.split('\n')
+l = []
+for i in a:
+    x =i.split('\t')
+    x = [int(j) for j in x]
+    l.append(x)
+x = 0 
+y = 0
+for i in range(3):
+    print(l[0][i])
+for i in range(3):
+    print(l[i][3])
+for i in range(3,0,-1):
+    print(l[3][i])
+for i in range(3,0,-1):
+    print(l[i][0])
+
+    
+                    
+
+
+
+
+
+
