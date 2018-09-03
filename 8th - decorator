@@ -1,0 +1,95 @@
+===================================================
+cache 
+
+import time
+import datetime
+def cache(d={},cache_time=3):
+    def _cache(func):
+        def wrapper(*args,**kwargs):
+            if d.get(args) is None or datetime.datetime.now().timestamp()-d[args][1]>cache_time:
+                value = func(*args,**kwargs)
+                d[args] = (value,datetime.datetime.now().timestamp())
+                return value
+            else:
+                print('using cache')
+                print(d[args][0])
+                return d[args][0]
+        return wrapper
+    return _cache
+
+@cache(cache_time=5)
+def test_func(x,y):
+    time.sleep(3)
+    print(x**y)
+    return x**y
+
+test_func(1,2)
+time.sleep(4)
+test_func(1,2)
+test_func(2,4)
+test_func(2,4)
+
+=================================================
+command dispenser
+
+# 可以用装饰器实现函数注册
+def func1():
+    print('call for func1')
+def func2():
+    print('call for func2')
+def func3():
+    print('call fof func3')
+def default():
+    print('call for default function')
+
+
+def command(func):
+    def wrapper():
+        d = [func1,func2,func3]
+        a = func()
+        for i in d:
+            if i.__name__ == a:
+                return i()
+        default()
+    return wrapper
+
+@command
+def user_input():
+    return input()
+
+user_input()
+
+=====================================================
+parameters type testing
+
+
+import inspect
+from functools import wraps
+
+def check(func):
+    @wraps(func)
+    def wrapper(*args,**kwargs):
+        '''
+        doc of wrapper
+        '''
+        print('doc is ',wrapper.__doc__)
+        print(wrapper.__name__,'is running')
+        sig = inspect.signature(func)
+        params = sig.parameters
+        types  = list(params.values())
+        for i,k in enumerate(args):
+            param = types[i]
+            if not isinstance(k,param.annotation):
+                print('Type of parameters were wrong')
+                raise TypeError
+        ret = func(*args,**kwargs)
+        return ret
+    return wrapper
+@check
+def add(x:int = 5, y:int =6)->int:
+    '''
+    doc of add
+    '''
+    return x+y
+
+add()
