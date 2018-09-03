@@ -1,0 +1,135 @@
+'''编写一个函数，其作用是将输入的字符串反转过来。
+
+示例 1:
+
+输入: "hello"
+输出: "olleh"
+'''
+def reverseString(s):
+    return s[::-1]
+===============================================================
+'''给定一个 32 位有符号整数，将整数中的数字进行反转。
+
+示例 1:
+
+输入: 123
+输出: 321
+ 示例 2:
+
+输入: -123
+输出: -321
+'''
+
+def reverse(x):
+    if str(x)[0]=='-':
+        a = -int(str(x)[-1:0:-1])
+        return a if -2**31 <= a <= 2**31-1 else 0
+    else:
+        a = int(str(x)[::-1])
+        return a if -2**31 <= a <= 2**31-1 else 0
+        ================================================================
+'''给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。
+
+案例:
+
+s = "leetcode"
+返回 0.
+
+s = "loveleetcode",
+返回 2.'''
+
+
+def firstUniqChar(s):
+        
+    d = {}
+    for i in range(len(s)):
+        if d.get(s[i],0)!= 0:
+            d[s[i]][0]+=1
+            continue
+        d[s[i]] = [d.get(s[i],0)+1,i]
+
+    lst = [v[1] for v in d.values() if v[0] == 1]
+    return -1 if lst ==[] else min(lst)
+
+
+# better one
+def firstUniqChar(s):
+    return min([s.find(c) for c in string.ascii_lowercase if s.count(c)==1] or [-1])
+==================================================================================
+'''给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的一个字母异位词。
+
+示例 1:
+
+输入: s = "anagram", t = "nagaram"
+输出: true
+'''
+
+def isAnagram(s, t):
+    ds = {}
+    dt = {}
+    for i in s:
+        ds[i] = ds.get(i,0) + 1
+    for j in t:
+        dt[j] = dt.get(j,0) + 1
+    return ds==dt
+isAnagram('a','ab')
+=====================================================================
+'''给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。
+
+说明：本题中，我们将空字符串定义为有效的回文串。
+
+示例 1:
+
+输入: "A man, a plan, a canal: Panama"
+输出: true
+'''
+def isPalindrome(self, s):
+    lst = [i.lower() for i in s if i.isalpha() or i.isalnum()]
+    mid = len(lst)//2
+    return lst[0:mid:1]==lst[-1:-mid-1:-1]
+=======================================================================
+'''实现 strStr() 函数。
+
+给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+
+示例 1:
+
+输入: haystack = "hello", needle = "ll"
+输出: 2'''
+def strStr(self, haystack, needle):
+    return haystack.find(needle)
+=================================================================
+'''编写一个函数来查找字符串数组中的最长公共前缀。
+
+如果不存在公共前缀，返回空字符串 ""。
+
+示例 1:
+
+输入: ["flower","flow","flight"]
+输出: "fl"
+'''
+def longestCommonPrefix(strs):
+    str1 = ''
+    n = 0
+    while True:
+        try:
+            temp = strs[0][n]
+            for i in strs:
+                if i[n] != temp:
+                    return str1
+            str1 += i[n]
+        except IndexError:
+            return str1
+        n += 1
+        
+#better one
+def longestCommonPrefix(self, strs):
+    if not strs:
+        return ""
+
+    for i, letter_group in enumerate(zip(*strs)):
+        if len(set(letter_group)) > 1:
+            return strs[0][:i]
+    else:
+        return min(strs)
+=================================================
